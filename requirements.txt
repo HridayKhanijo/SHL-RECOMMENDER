@@ -6,8 +6,8 @@ beautifulsoup4==4.12.3
 lxml==5.2.1
 sentence-transformers==3.0.1
 torch
-numpy==1.26.4
-faiss-cpu==1.8.0
+numpy
+faiss-cpu==1.13.0
 rank-bm25==0.2.2
 openai==1.30.5
 pytest==8.2.0
