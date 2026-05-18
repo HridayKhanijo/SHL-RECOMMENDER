@@ -1,6 +1,6 @@
 fastapi
 uvicorn[standard]
-pydantic==1.10.13
+pydantic
 requests
 beautifulsoup4
 lxml
