@@ -93,15 +93,11 @@ curl -X POST http://localhost:8000/chat \\\\
 python tests/evaluate.py --base-url http://localhost:8000
 ```
 
-## Deployment (Render)
+## Deployment (HF Spaces)
 
-1. Push to GitHub
-2. Create new **Web Service** on render.com → connect repo
-3. Set environment variables (GROQ\_API\_KEY, etc.) in Render dashboard
-4. Set **Start Command**: `sh -c "python scripts/scrape\\\_catalog.py \\\&\\\& uvicorn app.main:app --host 0.0.0.0 --port $PORT"`
-5. Set **Disk**: mount at `/app/data`, 1 GB (for FAISS index persistence)
-
-Alternatively, use the Dockerfile for Railway or Fly.io.
+Deployed on Hugging Face Spaces using Docker (CPU Basic, free tier). 
+The container runs continuously with no cold-start delay.
+Public URL: https://hridaykhanijo-shl-recommender.hf.space
 
 ## API Reference
 
