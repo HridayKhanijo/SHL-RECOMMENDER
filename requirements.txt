@@ -5,7 +5,7 @@ requests==2.31.0
 beautifulsoup4==4.12.3
 lxml==5.2.1
 sentence-transformers==3.0.1
-torch==2.3.0
+torch
 numpy==1.26.4
 faiss-cpu==1.8.0
 rank-bm25==0.2.2
