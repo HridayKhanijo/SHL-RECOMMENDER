@@ -1,3 +1,19 @@
+# \---
+
+# title: SHL Recommender
+
+# emoji: 🎯
+
+# colorFrom: blue
+
+# colorTo: green
+
+# sdk: docker
+
+# pinned: false
+
+# \---
+
 # SHL Assessment Recommender
 
 A production-quality conversational agent that recommends SHL Individual Test Solutions
@@ -11,11 +27,11 @@ POST /chat
     ▼
 Intent Classifier (LLM, fast call)
     │
-    ├─ clarify_needed  → Ask ONE clarifying question
+    ├─ clarify\_needed  → Ask ONE clarifying question
     ├─ recommend       → Retrieve + Recommend (FAISS + BM25 → RRF → LLM)
     ├─ refine          → Re-retrieve + Update shortlist
     ├─ compare         → Fetch two catalog items → LLM comparison
-    ├─ off_topic       → Polite refusal
+    ├─ off\_topic       → Polite refusal
     └─ injection       → Rejection
 
     ▼
@@ -28,41 +44,47 @@ Response
 
 ## Quick Start
 
-### 1. Install dependencies
+### 1\. Install dependencies
+
 ```bash
-python -m venv venv && source venv/bin/activate
+python -m venv venv \&\& source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-### 2. Configure environment
+### 2\. Configure environment
+
 ```bash
 cp .env.example .env
-# Edit .env — add your GROQ_API_KEY (free at console.groq.com)
+# Edit .env — add your GROQ\_API\_KEY (free at console.groq.com)
 ```
 
-### 3. Scrape the SHL catalog
+### 3\. Scrape the SHL catalog
+
 ```bash
-python scripts/scrape_catalog.py
-# Produces data/shl_catalog.json
+python scripts/scrape\_catalog.py
+# Produces data/shl\_catalog.json
 ```
 
-### 4. Run locally
+### 4\. Run locally
+
 ```bash
 uvicorn app.main:app --reload --port 8000
 ```
 
-### 5. Test
+### 5\. Test
+
 ```bash
 # Health check
 curl http://localhost:8000/health
 
 # Chat
-curl -X POST http://localhost:8000/chat \
-  -H "Content-Type: application/json" \
-  -d '{"messages": [{"role": "user", "content": "I need to hire a Java developer"}]}'
+curl -X POST http://localhost:8000/chat \\
+  -H "Content-Type: application/json" \\
+  -d '{"messages": \[{"role": "user", "content": "I need to hire a Java developer"}]}'
 ```
 
-### 6. Evaluate
+### 6\. Evaluate
+
 ```bash
 python tests/evaluate.py --base-url http://localhost:8000
 ```
@@ -71,8 +93,8 @@ python tests/evaluate.py --base-url http://localhost:8000
 
 1. Push to GitHub
 2. Create new **Web Service** on render.com → connect repo
-3. Set environment variables (GROQ_API_KEY, etc.) in Render dashboard
-4. Set **Start Command**: `sh -c "python scripts/scrape_catalog.py && uvicorn app.main:app --host 0.0.0.0 --port $PORT"`
+3. Set environment variables (GROQ\_API\_KEY, etc.) in Render dashboard
+4. Set **Start Command**: `sh -c "python scripts/scrape\_catalog.py \&\& uvicorn app.main:app --host 0.0.0.0 --port $PORT"`
 5. Set **Disk**: mount at `/app/data`, 1 GB (for FAISS index persistence)
 
 Alternatively, use the Dockerfile for Railway or Fly.io.
@@ -80,6 +102,7 @@ Alternatively, use the Dockerfile for Railway or Fly.io.
 ## API Reference
 
 ### GET /health
+
 ```json
 {"status": "ok"}
 ```
@@ -87,9 +110,10 @@ Alternatively, use the Dockerfile for Railway or Fly.io.
 ### POST /chat
 
 **Request:**
+
 ```json
 {
-  "messages": [
+  "messages": \[
     {"role": "user", "content": "Hiring a Java developer, 4 years exp"},
     {"role": "assistant", "content": "What level of seniority?"},
     {"role": "user", "content": "Mid-level"}
@@ -98,21 +122,23 @@ Alternatively, use the Dockerfile for Railway or Fly.io.
 ```
 
 **Response:**
+
 ```json
 {
   "reply": "Here are 3 assessments for a mid-level Java developer:",
-  "recommendations": [
-    {"name": "Java 8 (New)", "url": "https://www.shl.com/...", "test_type": "K"},
-    {"name": "OPQ32r", "url": "https://www.shl.com/...", "test_type": "P"}
+  "recommendations": \[
+    {"name": "Java 8 (New)", "url": "https://www.shl.com/...", "test\_type": "K"},
+    {"name": "OPQ32r", "url": "https://www.shl.com/...", "test\_type": "P"}
   ],
-  "end_of_conversation": false
+  "end\_of\_conversation": false
 }
 ```
 
 **Rules:**
-- `recommendations` is `[]` while clarifying or refusing
-- `recommendations` has 1–10 items when the agent recommends
-- `end_of_conversation: true` only after a complete shortlist is given
+
+* `recommendations` is `\[]` while clarifying or refusing
+* `recommendations` has 1–10 items when the agent recommends
+* `end\_of\_conversation: true` only after a complete shortlist is given
 
 ## Project Structure
 
@@ -128,16 +154,16 @@ shl-recommender/
 │   ├── retrieval/
 │   │   └── retriever.py     # Hybrid BM25 + semantic + RRF
 │   └── agent/
-│       ├── chat_agent.py    # Intent routing + orchestration
-│       ├── llm_client.py    # LLM API wrapper (Groq/Gemini/OpenAI)
+│       ├── chat\_agent.py    # Intent routing + orchestration
+│       ├── llm\_client.py    # LLM API wrapper (Groq/Gemini/OpenAI)
 │       └── prompts.py       # All prompt templates
 ├── scripts/
-│   └── scrape_catalog.py    # SHL catalog scraper
+│   └── scrape\_catalog.py    # SHL catalog scraper
 ├── tests/
 │   └── evaluate.py          # Recall@10 + behavior probes harness
-├── data/                    # Generated: shl_catalog.json, faiss_index.bin
+├── data/                    # Generated: shl\_catalog.json, faiss\_index.bin
 ├── docs/
-│   └── approach_document.md
+│   └── approach\_document.md
 ├── requirements.txt
 ├── Dockerfile
 └── .env.example
@@ -145,12 +171,13 @@ shl-recommender/
 
 ## Evaluation Metrics
 
-| Metric | Target |
-|--------|--------|
-| Schema compliance | 100% |
-| Mean Recall@10 | ≥ 0.70 |
-| Behavior probe pass rate | ≥ 0.80 |
-| Avg response time | < 10s |
-| Max turns honored | Always |
+|Metric|Target|
+|-|-|
+|Schema compliance|100%|
+|Mean Recall@10|≥ 0.70|
+|Behavior probe pass rate|≥ 0.80|
+|Avg response time|< 10s|
+|Max turns honored|Always|
 
 Run `python tests/evaluate.py` to check all metrics locally before submission.
+
