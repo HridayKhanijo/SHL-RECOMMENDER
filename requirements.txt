@@ -4,7 +4,7 @@ pydantic
 requests
 beautifulsoup4
 lxml
-sentence-transformers==2.2.2
+sentence-transformers
 torch
 numpy
 faiss-cpu==1.13.2
