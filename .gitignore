@@ -1,0 +1,9 @@
+venv/
+__pycache__/
+*.pyc
+data/faiss_index.bin
+data/catalog_meta.pkl
+.env
+*.egg-info/
+dist/
+.pytest_cache/
