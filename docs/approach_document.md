@@ -77,7 +77,7 @@ The index is built once at startup from the scraped catalog JSON and persisted t
 | Vector store | FAISS CPU | No server, works in any container |
 | BM25 | rank_bm25 | Pure Python, no Elasticsearch needed |
 | LLM | Groq llama-3.3-70b | Free tier, fast, OpenAI-compatible |
-| Deployment | Render (Docker) | Free tier, persistent disk for index |
+| Deployment | Hugging Face Spaces (Docker) | Free tier, persistent disk for index |
 
 ---
 
